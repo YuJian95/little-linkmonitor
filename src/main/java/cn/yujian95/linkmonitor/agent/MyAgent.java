@@ -8,6 +8,8 @@ import net.bytebuddy.matcher.ElementMatchers;
 import net.bytebuddy.utility.JavaModule;
 
 import java.lang.instrument.Instrumentation;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author YuJian95  yujian95_cn@163.com
@@ -61,6 +63,14 @@ public class MyAgent {
                 .transform(transformer)
                 .with(listener)
                 .installOn(inst);
+        // 监控 JVM，GC
+        Executors.newScheduledThreadPool(1).scheduleAtFixedRate(new Runnable() {
+            public void run() {
+                JvmStack.printMemoryInfo();
+                JvmStack.printGCInfo();
+                System.out.println("===================================================================================================");
+            }
+        }, 0, 5000, TimeUnit.MILLISECONDS);
     }
 
     //如果代理类没有实现上面的方法，那么 JVM 将尝试调用该方法
