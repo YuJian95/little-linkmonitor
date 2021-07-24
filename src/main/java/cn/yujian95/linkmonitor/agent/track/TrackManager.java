@@ -7,10 +7,10 @@ import java.util.Stack;
  * @date 2021/7/24
  */
 public class TrackManager {
-    private static final ThreadLocal<Stack<String>> track = new ThreadLocal<Stack<String>>();
+    private static final ThreadLocal<Stack<Span>> track = new ThreadLocal<>();
 
-    private static String createSpan() {
-        Stack<String> stack = track.get();
+    private static Span createSpan() {
+        Stack<Span> stack = track.get();
         if (stack == null) {
             stack = new Stack<>();
             track.set(stack);
@@ -23,22 +23,23 @@ public class TrackManager {
                 TrackContext.setLinkId(linkId);
             }
         } else {
-            linkId = stack.peek();
+            Span span = stack.peek();
+            linkId = span.getLinkId();
             TrackContext.setLinkId(linkId);
         }
-        return linkId;
+        return new Span(linkId);
     }
 
-    public static String createEntrySpan() {
-        String span = createSpan();
-        Stack<String> stack = track.get();
+    public static Span createEntrySpan() {
+        Span span = createSpan();
+        Stack<Span> stack = track.get();
         stack.push(span);
         return span;
     }
 
 
-    public static String getExitSpan() {
-        Stack<String> stack = track.get();
+    public static Span getExitSpan() {
+        Stack<Span> stack = track.get();
         if (stack == null || stack.isEmpty()) {
             TrackContext.clear();
             return null;
@@ -46,8 +47,8 @@ public class TrackManager {
         return stack.pop();
     }
 
-    public static String getCurrentSpan() {
-        Stack<String> stack = track.get();
+    public static Span getCurrentSpan() {
+        Stack<Span> stack = track.get();
         if (stack == null || stack.isEmpty()) {
             return null;
         }

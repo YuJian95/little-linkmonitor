@@ -5,17 +5,17 @@ package cn.yujian95.linkmonitor.agent.track;
  * @date 2021/7/24
  */
 public class TrackContext {
-    private static final ThreadLocal<String> trackLocal = new ThreadLocal<String>();
+    private static final ThreadLocal<String> trackLocal = new ThreadLocal<>();
 
-    public static void clear() {
+    public static void clear(){
         trackLocal.remove();
     }
 
-    public static String getLinkId() {
+    public static String getLinkId(){
         return trackLocal.get();
     }
 
-    public static void setLinkId(String linkId) {
+    public static void setLinkId(String linkId){
         trackLocal.set(linkId);
     }
 }

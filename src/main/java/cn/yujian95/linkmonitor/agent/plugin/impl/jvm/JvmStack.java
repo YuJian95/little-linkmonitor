@@ -1,4 +1,4 @@
-package cn.yujian95.linkmonitor.agent;
+package cn.yujian95.linkmonitor.agent.plugin.impl.jvm;
 
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
@@ -14,7 +14,7 @@ import java.util.List;
 public class JvmStack {
     private static final long MB = 1048576L;
 
-    static void printMemoryInfo() {
+    public static void printMemoryInfo() {
         MemoryMXBean memory = ManagementFactory.getMemoryMXBean();
         MemoryUsage headMemory = memory.getHeapMemoryUsage();
 
@@ -41,7 +41,7 @@ public class JvmStack {
 
     }
 
-    static void printGCInfo() {
+    public static void printGCInfo() {
         List<GarbageCollectorMXBean> garbages = ManagementFactory.getGarbageCollectorMXBeans();
         for (GarbageCollectorMXBean garbage : garbages) {
             String info = String.format("name: %s\t count:%s\t took:%s\t pool name:%s",
@@ -51,5 +51,6 @@ public class JvmStack {
                     Arrays.deepToString(garbage.getMemoryPoolNames()));
             System.out.println(info);
         }
+        System.out.println("-------------------------------------------------------------------------------------------------");
     }
 }
