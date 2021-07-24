@@ -1,2 +1,3 @@
 /.idea/
-/little-linkmonitor.iml
+*.iml
+/target/

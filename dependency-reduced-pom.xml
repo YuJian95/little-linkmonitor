@@ -40,6 +40,8 @@
           <artifactSet>
             <includes>
               <include>javassist:javassist:jar:</include>
+              <include>net.bytebuddy:byte-buddy:jar:</include>
+              <include>net.bytebuddy:byte-buddy-agent:jar:</include>
             </includes>
           </artifactSet>
         </configuration>
